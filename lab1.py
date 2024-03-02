@@ -1,13 +1,9 @@
 import random
+from Grammar import GenericGrammar
+from FiniteAutomaton import GenericFiniteAutomaton
 
 
-class Grammar:
-    def __init__(self, vn, vt, p, s):
-        self.Vn = vn
-        self.Vt = vt
-        self.P = p
-        self.S = s
-
+class Grammar(GenericGrammar):
     def generate_strings(self):
         results = []
         while len(results) < 5:
@@ -42,24 +38,34 @@ class Grammar:
 
         return FiniteAutomaton(states, alphabet, transition_function, start, accept)
     
+    def classify(self):
+        is_regular = True
+        is_context_free = True
+        is_context_sensitive = True
 
-class FiniteAutomaton:
-    def __init__(self, states, alphabet, transition_function, start, accept):
-        self.states = states
-        self.alphabet = alphabet
-        self.transition_function = transition_function
-        self.start = start
-        self.accept = accept
+        for lhs, rhs_list in self.P.items():
+            for rhs in rhs_list:
+                # Check for Type 3 (Regular Grammar)
+                if not (len(rhs) == 1 and rhs in self.Vt) and not (len(rhs) == 2 and rhs[0] in self.Vt and rhs[1] in self.Vn):
+                    is_regular = False
+                # Check for Type 2 (Context-Free Grammar)
+                if len(lhs) != 1 or not lhs.isupper():
+                    is_context_free = False
+                # Check for Type 1 (Context-Sensitive Grammar)
+                if len(rhs) < len(lhs):
+                    is_context_sensitive = False
 
+        if is_regular:
+            return "Type 3 (Regular Grammar)"
+        elif is_context_free:
+            return "Type 2 (Context-Free Grammar)"
+        elif is_context_sensitive:
+            return "Type 1 (Context-Sensitive Grammar)"
+        else:
+            return "Type 0 (Unrestricted Grammar)"
+    
 
-    def print_automaton(self):
-        print('States:', self.states)
-        print('Alphabet:', self.alphabet)
-        print('Transition function:', self.transition_function)
-        print('Start state:', self.start)
-        print('Accept state:', self.accept, '\n')
-
-
+class FiniteAutomaton(GenericFiniteAutomaton):
     def is_word_accepted(self, word):
         current_state = self.start
         for char in word:
@@ -97,4 +103,6 @@ if __name__ == "__main__":
     for i in random_words:
         print(i, '-', grammar.to_finite_automaton().is_word_accepted(i))
     print()
+
+    print(grammar.classify())
 
