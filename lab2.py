@@ -14,12 +14,15 @@ class FiniteAutomaton(GenericFiniteAutomaton):
         for nt, vals in self.transition_function.items():
             for terminal, vals2 in vals.items():
                 for i in vals2:
-                    if i == self.accept[0]:
+                    # Check if the current state is in the set of accept states
+                    if i in self.accept:
                         p[nt].append(terminal)
-                    production = terminal + i
-                    p[nt].append(production)
+                    else:
+                        production = terminal + i
+                        p[nt].append(production)
 
         return GenericGrammar(vn, vt, p, s)
+
     
     def nfa_to_dfa(self):
         # Initialize the list of states to process and the set of all created DFA states
@@ -139,11 +142,11 @@ if __name__ == "__main__":
     accept = ['B']
 
     FA = FiniteAutomaton(states, alphabet, transition_function, start, accept)
-    # FA.fa_to_grammar().print_grammar()
-    # FA.check_fa()
+    #FA.fa_to_grammar().print_grammar()
+    #FA.check_fa()
     DFA = FA.nfa_to_dfa()
-    # DFA.print_automaton()
-    # DFA.check_fa()
-    # DFA.fa_to_grammar().print_grammar()
-    # FA.create_graph()
-    DFA.create_graph()
+   # DFA.print_automaton()
+   # DFA.check_fa()
+    DFA.fa_to_grammar().print_grammar()
+    #FA.create_graph()
+    #DFA.create_graph()
