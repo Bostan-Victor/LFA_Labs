@@ -10,6 +10,8 @@ class GenericGrammar:
     def print_grammar(self):
         print('Vn:', self.Vn)
         print('Vt:', self.Vt)
-        print('P: ', self.P)
+        print('P:')
+        for key, value in self.P.items():
+            print(f'{key} -> {value}')
         print('S: ', self.S, '\n')
         

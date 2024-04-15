@@ -193,5 +193,5 @@ n = 5  # Number of strings to generate
 temp = '(a|b)(c|d)E+G?'
 tokens = tokenizer(temp)
 print(f'Tokens for {temp}:\n{tokens}')
-# print(generate_strings(tokens, n, limit))
+print(generate_strings(tokens, n, limit))
 # generate_string_with_explanation(temp, tokens, n, limit)
