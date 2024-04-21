@@ -6,14 +6,6 @@ body {
     font-family: 'Segoe UI';
 }
 
-/* Header styles */
-header {
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-
 /* Media query for mobile devices */
 @media (max-width: 600px) {
     header {
